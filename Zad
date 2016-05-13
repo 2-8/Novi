@@ -1,0 +1,64 @@
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+#include <stdio.h>
+#include <stdlib.h>
+#include <iomanip>
+#include <iostream>
+#include <cstring>
+#include <string.h>
+#include <ctype.h>
+#include <math.h>
+
+using namespace std;
+
+typedef struct gorivo
+{
+	char ime[10];
+	float cena, porez;
+	int kolicina;
+};
+
+void popuna(gorivo *a)
+{
+		gets_s(a->ime);
+		scanf_s("%f %d %f", &a->cena,&a->kolicina, &a->porez);
+		getchar();
+}
+void SortABC(gorivo *s, int n)
+{
+	int i, k;
+	char sp[10];
+	for (i = 0; i<n - 1; i++)
+	{
+		for (k = i + 1; k<n; k++)
+		{
+			if ((s->ime+i,s->ime+k)>0)
+			{
+				strcpy(sp, s->ime + i);
+				strcpy(s->ime+i,s->ime+k);
+				strcpy(s->ime + k, sp);
+			}
+		}
+	}
+}
+void ispis(gorivo *a)
+{
+		puts(a->ime);
+		cout << "Cena:" << a->cena << endl << "Kolicina:" << a->kolicina << endl << "Stopa oporezivanja:" << a->porez << endl;
+}
+void main()
+{
+	gorivo a[10];
+	int n;
+	cin >> n;
+	getchar();
+	for (int i = 0; i < n; i++)
+		popuna(&a[i]);
+	SortABC(a, n);
+	cout << "\n\n\n";
+	for (int i = 0; i < n; i++)
+		ispis(&a[i]);
+
+	system("PAUSE");
+}
