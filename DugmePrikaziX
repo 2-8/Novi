@@ -1,0 +1,30 @@
+private void prikazi_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Rows.Clear();
+            string cmd = "SELECT Lokalitet.Naziv, Lokalitet.KoordinateSirina,Lokalitet.KoordinateDuzina FROM Tip_Antikviteta INNER JOIN(Period INNER JOIN (Lokalitet INNER JOIN Antikvitet ON Lokalitet.LokalitetID = Antikvitet.LokalitetID) ON Period.PeriodID = Antikvitet.PeriodID) ON Tip_Antikviteta.TipAntikvitetaID = Antikvitet.TipAntikvitetaID WHERE Tip_Antikviteta.Tip = @a";
+            konekcija.Open();
+            komanda = new OleDbCommand(cmd, konekcija);
+            komanda.Parameters.AddWithValue("@a", tbNaziv.Text);
+            try
+            {
+                reader = komanda.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            while (true)
+            {
+                try
+                {
+                    reader.Read();
+                    dataGridView1.Rows.Add(reader[0].ToString(), reader[1].ToString(), reader[2].ToString());
+                }
+                catch (Exception ex)
+                {
+
+                    break;
+                }
+            }
+            konekcija.Close();
+        }
