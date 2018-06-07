@@ -1,0 +1,28 @@
+private void bIzmeni_Click(object sender, EventArgs e)
+        {
+            if (tbNaziv.Text == "")
+            {
+                MessageBox.Show("Naziv je obavezno polje!", "Obavestenje");
+            }
+            else
+            {
+                cmd = new OleDbCommand("UPDATE Tip_Antikviteta SET Tip=@Tip WHERE TipAntikvitetaID=" + Int32.Parse(tbSifra.Text), con);
+                cmd.Parameters.Add("@Tip", OleDbType.VarChar).Value = tbNaziv.Text;
+                con.Open();
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Uspesna izmena!", "Obavestenje", MessageBoxButtons.OK);
+                }
+                catch
+                {
+                    MessageBox.Show("Doslo je do greske pri izmeni podataka!", "Greska", MessageBoxButtons.OK);
+                }
+                finally
+                {
+                    con.Close();
+                    tbNaziv.Text = "";
+                    tbSifra.Text = "";
+                }
+            }
+        }
