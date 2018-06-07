@@ -22,5 +22,4 @@ private void bUnos_Click(object sender, EventArgs e)
             else
                 MessageBox.Show("Popunite sva obavezna polja i sifra mora biti veca od 0!", "Greska", MessageBoxButtons.OK);
 
-
         }
