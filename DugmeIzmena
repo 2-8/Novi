@@ -1,3 +1,4 @@
+//Dugme izmena
 private void bIzmeni_Click(object sender, EventArgs e)
         {
             if (tbNaziv.Text == "")
