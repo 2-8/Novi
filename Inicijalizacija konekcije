@@ -1,0 +1,11 @@
+OleDbConnection con;
+OleDbCommand cmd;
+OleDbDataReader rider;
+public frmTipUnos()
+    {
+        InitializeComponent();
+        string putanja = Environment.CurrentDirectory;
+        string[] putanjaBaze = putanja.Split(new string[] { "bin" }, StringSplitOptions.None);
+        AppDomain.CurrentDomain.SetData("DataDirectory", putanjaBaze[0]);
+        con = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\B10Antikviteti.accdb");
+    }
