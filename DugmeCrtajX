@@ -1,0 +1,47 @@
+private void nacrtaj_Click(object sender, EventArgs e)
+        {
+           DrawArea = null;
+            DrawArea = new Bitmap(pictureBox1.Size.Width, pictureBox1.Size.Height);
+
+            Graphics g;
+            g = Graphics.FromImage(DrawArea);
+            float sirina;
+            float duzina;
+            float centarX = (float)((pictureBox1.Width / 2) - 0.5);
+            float centarY = (float)((pictureBox1.Height / 2) - 0.5);
+            int rbr;
+            try
+            {
+                rbr = dataGridView1.SelectedCells[0].RowIndex;
+            }
+            catch
+            {
+                MessageBox.Show("Morate selektovati red!", "Greska!");
+                return;
+            }
+            if (!dataGridView1.Rows[rbr].IsNewRow)
+            {
+                duzina = centarX + float.Parse(dataGridView1.Rows[rbr].Cells[1].Value.ToString());
+                sirina = centarY - float.Parse(dataGridView1.Rows[rbr].Cells[2].Value.ToString());
+            }
+            else
+            {
+                MessageBox.Show("Selektovani red ne sme biti prazan!", "Greska!");
+                return;
+            }
+
+
+
+            Pen mypen = new Pen(Color.Navy, 2);
+
+            g.DrawRectangle(mypen, 2, 2, pictureBox1.Width - 4, pictureBox1.Height - 4);
+            g.DrawLine(mypen, (pictureBox1.Width) / 2 + 2, 2, (pictureBox1.Width) / 2 + 2, pictureBox1.Height - 2);
+            g.DrawLine(mypen, 2, (pictureBox1.Height) / 2 + 2, pictureBox1.Width - 2, (pictureBox1.Height) / 2 + 2);
+            pictureBox1.Image = DrawArea;
+
+            mypen = new Pen(Color.Red, 4);
+
+            g.DrawEllipse(mypen, duzina, sirina, 4, 4);
+            pictureBox1.Image = DrawArea;
+            g.Dispose();
+        }
