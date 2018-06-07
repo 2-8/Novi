@@ -1,0 +1,25 @@
+private void brisanje_Click(object sender, EventArgs e)
+        {
+            string s;
+            s = tbSifra.Text;
+            int i = Convert.ToInt32(s);
+            try
+            {
+                konekcija.Open();
+                string cmd = "DELETE FROM Period where PeriodID=@id";
+                komanda = new OleDbCommand(cmd, konekcija);
+                komanda.Parameters.AddWithValue("@id", tbSifra.Text);
+                komanda.ExecuteNonQuery();
+                MessageBox.Show("Stavka je uspesno obrisana!");
+                tbSifra.Clear();
+                tbNaziv.Clear();
+                tbSifra.Focus();
+                konekcija.Close();
+            }
+            catch
+            {
+                konekcija.Close();
+                MessageBox.Show("Stavka ciji je ID: " + tbSifra.Text + " ne postoji u tabeli!");
+                tbSifra.Clear();
+            }
+        }
