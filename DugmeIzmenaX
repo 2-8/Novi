@@ -1,0 +1,24 @@
+private void menjanje_Click(object sender, EventArgs e)
+        {
+            konekcija.Open();
+            string cmd = "UPDATE Period SET [Period]=@naziv WHERE PeriodId=@id";
+            komanda = new OleDbCommand(cmd, konekcija);
+            try
+            {
+                komanda.Parameters.AddWithValue("@naziv", tbNaziv.Text);
+                komanda.Parameters.AddWithValue("@id", Convert.ToInt32(tbSifra.Text));
+                komanda.ExecuteNonQuery();
+                MessageBox.Show("Uspesno promenjeno!");
+                tbSifra.Clear();
+                tbNaziv.Clear();
+                tbSifra.Focus();
+            }
+            catch
+            {
+                MessageBox.Show("Doslo je do greske prilikom menjanja sadrzaja tabele!");
+                tbSifra.Clear();
+                tbNaziv.Clear();
+                tbSifra.Focus();
+            }
+            konekcija.Close();
+        }
