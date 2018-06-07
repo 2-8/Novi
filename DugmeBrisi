@@ -1,0 +1,18 @@
+private void bBrisi_Click(object sender, EventArgs e)
+        {
+            int id = Int32.Parse(tbSifra.Text);
+            cmd = new OleDbCommand("DELETE FROM Tip_Antikviteta WHERE TipAntikvitetaID=" + id + ";", con);
+            con.Open();
+            try
+            {
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Uspesno brisanje!", "Obavestenje", MessageBoxButtons.OK);
+            }
+            catch
+            {
+                MessageBox.Show("Doslo je do greske pri brisanju iz baze!", "Greska", MessageBoxButtons.OK);
+            }
+            con.Close();
+            tbNaziv.Text = "";
+            tbSifra.Text = "";
+        }
