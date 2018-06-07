@@ -1,0 +1,15 @@
+private void frmPoArhe_Load(object sender, EventArgs e)
+        {
+            Graphics g;
+            g = Graphics.FromImage(DrawArea);
+
+            Pen mypen = new Pen(Color.Navy,2);
+
+            g.DrawRectangle(mypen, 2, 2, pictureBox1.Width - 4, pictureBox1.Height - 4);
+            g.DrawLine(mypen, (pictureBox1.Width) / 2 + 2, 2, (pictureBox1.Width) / 2 + 2,pictureBox1.Height-2);
+            g.DrawLine(mypen, 2, (pictureBox1.Height) / 2 + 2, pictureBox1.Width - 2, (pictureBox1.Height) / 2 + 2);
+            pictureBox1.InitialImage = DrawArea;
+            DrawAreaMap=DrawArea;
+            pictureBox1.Image = pictureBox1.InitialImage;
+            g.Dispose();
+        }
