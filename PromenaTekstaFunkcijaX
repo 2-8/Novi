@@ -1,0 +1,33 @@
+ private void tbSifra_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (tbSifra.Text != "")
+                {
+                    int sifra = Convert.ToInt32(tbSifra.Text);
+                    if (sifra >0)
+                    {
+                        konekcija.Open();
+                        OleDbCommand komanda = new OleDbCommand("SELECT * FROM Period WHERE PeriodID=" + sifra, konekcija);
+                        reader = komanda.ExecuteReader();
+                        reader.Read();
+                        tbNaziv.Text = reader[1].ToString();                        
+                    }
+                    else
+                        MessageBox.Show("Sifra ne sme biti negativna!");
+                }
+                else
+                {
+                    tbNaziv.Clear();
+                    tbSifra.Clear();
+                }
+            }
+            catch
+            {
+                tbNaziv.Clear();
+                MessageBox.Show("Period ciji je ID " + tbSifra.Text + " ne postoji u bazi, ali ga mozete uneti!");
+                tbNaziv.Focus();
+            }
+            konekcija.Close();
+            
+        }
