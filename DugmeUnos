@@ -1,0 +1,26 @@
+private void bUnos_Click(object sender, EventArgs e)
+        {
+            if (tbSifra.Text != "" && tbNaziv.Text != "" && Int32.Parse(tbSifra.Text) > 0)
+            {
+                cmd = new OleDbCommand("INSERT INTO Tip_Antikviteta (TipAntikvitetaID, Tip) values (@TipAntikvitetaID, @Tip)", con);
+                cmd.Parameters.Add("@TipAntikvitetaID", OleDbType.Numeric).Value = Int32.Parse(tbSifra.Text);
+                cmd.Parameters.Add("@Tip", OleDbType.VarChar).Value = tbNaziv.Text;
+                con.Open();
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Uspesan upis!", "Obavestenje", MessageBoxButtons.OK);
+                }
+                catch
+                {
+                    MessageBox.Show("Doslo je do greske pri upisivanju u bazu!", "Greska", MessageBoxButtons.OK);
+                }
+                con.Close();
+                tbNaziv.Text = "";
+                tbSifra.Text = "";
+            }
+            else
+                MessageBox.Show("Popunite sva obavezna polja i sifra mora biti veca od 0!", "Greska", MessageBoxButtons.OK);
+
+
+        }
