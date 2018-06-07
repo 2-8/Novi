@@ -1,0 +1,53 @@
+private void tbSifra_TextChanged(object sender, EventArgs e)
+        {
+            if (tbSifra.Text != "")
+            {
+                int id;
+                bool ima = false;
+                try
+                {
+                    id = Int32.Parse(tbSifra.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Sifra mora biti broj!", "Greska!");
+                    tbSifra.Text = "";
+                    return;
+                }
+                cmd = new OleDbCommand("SELECT * FROM Tip_Antikviteta", con);
+                con.Open();
+                rider = cmd.ExecuteReader();
+                while (rider.Read())
+                {
+                    if (id == Int32.Parse(rider[0].ToString()))
+                    {
+                        ima = true;
+                        break;
+                    }
+                }
+                if (ima)
+                {
+                    tbNaziv.Text = rider[1].ToString();
+                    bIzmeni.Enabled = true;
+                    bUnos.Enabled = false;
+                    bBrisi.Enabled = true;
+                }
+                else
+                {
+                    tbNaziv.Text = "";
+                    bIzmeni.Enabled = false;
+                    bUnos.Enabled = true;
+                    bBrisi.Enabled = false;
+                }
+
+                con.Close();
+
+            }
+            else
+            {
+                tbNaziv.Text = "";
+                bIzmeni.Enabled = false;
+                bUnos.Enabled = false;
+                bBrisi.Enabled = false;
+            }
+        }
