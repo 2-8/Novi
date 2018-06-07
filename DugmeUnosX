@@ -1,0 +1,50 @@
+private void unos_Click(object sender, EventArgs e)
+        {
+            string id, naziv;
+            id = tbSifra.Text;
+            naziv = tbNaziv.Text;
+            try
+            {
+                if(tbSifra.Text=="" || tbNaziv.Text=="")
+                {
+                    MessageBox.Show("Polja" + label1.Text + " i " + label2.Text + " su obevezna!");
+                    if (tbSifra.Text == "" && tbNaziv.Text != "")
+                    {
+                        tbSifra.Focus();
+                    }
+                    else if (tbNaziv.Text == "")
+                        tbNaziv.Focus();
+                    else
+                        tbSifra.Focus();
+                }
+
+                else
+                {
+                    int i = Convert.ToInt32(tbSifra.Text);
+                    if (i<0||i==0)
+                    {
+                        MessageBox.Show("Sifra ne moze biti negativna!");
+                        tbSifra.Clear();
+                        tbSifra.Focus();
+                    }
+                    else
+                    {
+                        string cmd = "INSERT INTO Period(PeriodID,Period) VALUES ('" + id + "','" + naziv + "')";
+                        konekcija.Open();
+                        komanda = new OleDbCommand(cmd, konekcija);
+                        komanda.ExecuteNonQuery();
+                        MessageBox.Show("Uspesno upisano u tabelu", "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        tbSifra.Clear();
+                        tbNaziv.Clear();
+                        tbSifra.Focus();
+                    }
+                }
+            }
+            catch
+            {
+                konekcija.Close();
+                MessageBox.Show("Unesite drugu sifru!", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                tbSifra.Clear();
+                tbSifra.Focus();
+            }
+        }
