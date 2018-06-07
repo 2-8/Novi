@@ -1,0 +1,85 @@
+private void bPrikaz_Click(object sender, EventArgs e)
+        {
+            int id;
+            bool ima = false;
+            try
+            {
+                id = Int32.Parse(tbSifra.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Polje sifra ne sme biti prazno i mora biti broj!", "Obavestenje!");
+                tbSifra.Text = "";
+                return;
+            }
+            if (id <= 0)
+            {
+                MessageBox.Show("Sifra mora biti veca od 0!", "Greska!");
+                tbSifra.Text = "";
+                return;
+            }
+            cmd = new OleDbCommand("SELECT ArheologID FROM Arheolog", con);
+            con.Open();
+            rider = cmd.ExecuteReader();
+            while (rider.Read())
+            {
+                if (id == Int32.Parse(rider[0].ToString()))
+                {
+                    ima = true;
+                    break;
+                }
+            }
+            con.Close();
+            if (ima)
+            {
+
+                dataGridView1.Rows.Clear();
+                int[] lokaliteti = new int[30];
+                cmd = new OleDbCommand("SELECT LokalitetID FROM Antikvitet WHERE ArheologID=" + id + ";", con);
+                con.Open();
+                rider = cmd.ExecuteReader();
+
+                int i = 0;
+                if (rider.HasRows)
+                {
+                    while (rider.Read())
+                    {
+                        lokaliteti[i] = Int32.Parse(rider[0].ToString());
+                        i++;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Arheolog sa ovom sifrom nije pronasao nijedan antikvitet!", "Obavestenje!");
+                    con.Close();
+                    return;
+                }
+                i = 0;
+                con.Close();
+                cmd.CommandText = "SELECT * FROM Lokalitet";
+                con.Open();
+                rider = cmd.ExecuteReader();
+
+                while (rider.Read())
+                {
+
+                    for (int j = 0; j < lokaliteti.Count(); j++)
+                    {
+                        if (Int32.Parse(rider[0].ToString()) == lokaliteti[j])
+                        {
+                            DataGridViewRow row = (DataGridViewRow)dataGridView1.Rows[i].Clone();
+                            row.Cells[0].Value = rider[3].ToString();
+                            row.Cells[1].Value = rider[1].ToString();
+                            row.Cells[2].Value = rider[2].ToString();
+                            dataGridView1.Rows.Add(row);
+                            i++;
+                        }
+                    }
+                }
+                con.Close();
+            }
+            else
+            {
+                MessageBox.Show("Arheolog sa ovom sifrom ne postoji u bazi!", "Obavestenje!");
+            }
+        }
